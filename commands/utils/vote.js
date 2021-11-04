@@ -125,7 +125,7 @@ module.exports = class Vote extends cmd.Command {
             group: 'utils',
             memberName: 'tao',
             description: "TAOのオリ敵作成ジェネレータ。",
-            examples: ['!tao "属性" "名前" "画像アドレス"'],
+            examples: ['!tao "属性" "名前" "https://gazou.src"'],
             args: [
                 {
                     key: 'question',
@@ -152,7 +152,7 @@ module.exports = class Vote extends cmd.Command {
                     validate: image_url => {
                         if (image_url.startsWith("https://")) return true;
                         return '有効なアドレスを入力してください。';
-                    } 
+                    }
                 }
             ]
         });
