@@ -146,7 +146,7 @@ module.exports = class Vote extends cmd.Command {
                     }
                 },
                 {
-                    key: 'image_url',
+                    key: 'image',
                     prompt: '敵の画像アドレスを送信してください。',
                     type: 'string',
                     validate: image_url => {
@@ -158,11 +158,11 @@ module.exports = class Vote extends cmd.Command {
         });
     }
     
-    run(msg, {question, detail , image_url}) {
+    run(msg, {question, detail , image}) {
         var emb = new discord.RichEmbed()
             .setTitle("属性:[" + question + "] ランク:【通常】\n" + detail + "が待ち構えている...!\nLv.???  HP: ??? 素早さ: 100")
             .setColor("RANDOM")
-            .setImage(image_url);
+            .setImage(image);
         msg.channel.send(emb)
     }
 };
