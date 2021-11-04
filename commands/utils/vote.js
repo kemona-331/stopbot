@@ -147,7 +147,7 @@ module.exports = class Vote extends cmd.Command {
                 },
                 {
                     key: 'image_url',
-                    prompt: '敵の画像を送信してください。',
+                    prompt: '敵の画像アドレスを送信してください。',
                     type: 'string',
                     validate: image_url => {
                         if (image_url.startsWith("https://")) return true;
