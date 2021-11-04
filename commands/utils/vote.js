@@ -123,54 +123,46 @@ module.exports = class Vote extends cmd.Command {
         super(client, {
             name: 'tao',
             group: 'utils',
-            memberName: 'ori',
+            memberName: 'tao',
             description: "TAOのオリ敵作成ジェネレータ。",
-            examples: ['!tao "ネコ派の人～～～！" "ネコ派の人は✅ 、イヌ派の人は❌ 、それ以外の人は🤔 を選んでね～" 0 #一般'],
+            examples: ['!tao "属性" "名前" "画像アドレス"'],
             args: [
                 {
                     key: 'question',
-                    prompt: '投票のテーマを入力してください。',
+                    prompt: '属性を入力してください。',
                     type: 'string',
                     validate: question => {
-                        if (question.length < 31 && question.length > 2) return true;
-                        return 'テーマは3~30文字にしてください。';
+                        if (question.length < 31 && question.length > 0) return true;
+                        return '属性は1~30文字にしてください。';
                     }
                 },
                 {
                     key: 'detail',
-                    prompt: '詳細を入力してください。',
+                    prompt: '名前を入力してください。',
                     type: 'string',
                     validate: desc => {
-                        if (desc.length < 201 && desc.length > 0) return true;
-                        return '詳細は1~200文字にしてください。';
+                        if (desc.length < 31 && desc.length > 0) return true;
+                        return '名前は1~30文字にしてください。';
                     }
                 },
                 {
-                    key: 'time',
-                    prompt: '投票を受け付ける時間を入力してください（分）。0を指定すると制限時間無しになります。',
+                    key: 'image',
+                    prompt: '敵の画像を送信してください。',
                     type: 'integer',
-                    validate: time => {
-                        if (time >= 0 && time <= 1440) return true;
-                        return '時間は0~1440分にしてください。';
+                    validate: image_url => {
+                        if (image_url.startsWith("https://")) return true;
+                        return '有効なアドレスを入力してください。';
                     } 
-                },
-                {
-                    key: 'channel',
-                    prompt: '投票をしたいチャンネルを入力してください。',
-                    type: 'channel'
                 }
             ]
         });
     }
     
-    run(msg, {question, channel, time, detail}) {
-      var emojis = ['✅','❌','🤔'];
+    run(msg, {question, detail , image_url}) {
         var emb = new discord.RichEmbed()
-            .setTitle(question)
-            .setDescription(detail)
-            .setAuthor(msg.author.username, msg.author.displayAvatarURL)
-            .setColor(0x7289DA)
-            .setTimestamp();
+            .setTitle("属性:[" + question + "] ランク:【通常】\n" + detail + "が待ち構えている...!\nLv.???  HP: ??? 素早さ: 100")
+            .setImage(image)
+            .setColor("RANDOM")
             
         if (time) {
             if (time > 60){
