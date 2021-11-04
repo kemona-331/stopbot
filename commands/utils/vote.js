@@ -158,70 +158,11 @@ module.exports = class Vote extends cmd.Command {
         });
     }
     
-    run(msg, {question, detail , image_url}) {
+    run(msg, {question, detail , image}) {
         var emb = new discord.RichEmbed()
             .setTitle("属性:[" + question + "] ランク:【通常】\n" + detail + "が待ち構えている...!\nLv.???  HP: ??? 素早さ: 100")
-            .setImage(image)
             .setColor("RANDOM")
-            
-        if (time) {
-            if (time > 60){
-                var hs = Math.floor(time / 60) + '時間';
-                var m = time % 60;
-                var ms = (m==0)?'':m+'分';
-                emb.setFooter('この投票は、開始から' + hs + ms + '後に締め切られます。');
-            }else{
-                emb.setFooter('この投票は、開始から' + time + '分後に締め切られます。');
-            }
-        } else {
-            emb.setFooter('この投票は無期限です。');
-        }
-            
-        //msg.delete();
-        channel.send("投票が開始されました！", emb)
-            .then(async function (message) {
-                var reaction = [];
-                for(var i = 0; i < emojis.length; ++i){
-                  reaction[i] = await message.react(emojis[i]);
-                }
-                
-                if (time) {
-                    setTimeout(() => {
-                        message.channel.fetchMessage(message.id)
-                            .then(async function (message) {
-                                var reactionCounts = [];                               
-                                for (var i = 0; i < reaction.length; i++) {
-                                    reactionCounts[i] = message.reactions.get(emojis[i]).count-1;
-                                }
-                                
-                                var max = -Infinity, indexMax = [];
-                                for(var i = 0; i < reactionCounts.length; ++i){
-                                    if(reactionCounts[i] > max){
-                                      max = reactionCounts[i];
-                                      indexMax = [i];
-                                    }
-                                    else if(reactionCounts[i] === max) indexMax.push(i);
-                                }
-                                var resultText = "";
-                                if (reactionCounts[indexMax[0]] == 0) {
-                                    resultText = "かれこれまぁ" + time + "分くらい、えー待ったんですけども投票者は誰一人来ませんでした。";
-                                } else {
-                                    for (var i = 0; i < reactionCounts.length; i++) {
-                                        resultText += 
-                                            emojis[i] + " ( " + reactionCounts[i] + " 票)";
-                                        for (var j = 0; j < indexMax.length; j++) {
-                                            if(indexMax[j] == i) resultText += ":trophy:";
-                                        }
-                                        resultText += "\n";
-                                    }
-                                }
-                                emb.addField(":fire:投票結果:fire:", resultText);
-                                emb.setFooter("この投票は締め切られました。");
-                                emb.setTimestamp();
-                                message.edit("", emb);
-                            });
-                    }, time * 60 * 1000);
-                }
-            }).catch(console.error);
+            .setImage(image);
+        msg.channel.send(emb)
     }
 };
