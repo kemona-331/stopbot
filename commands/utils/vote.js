@@ -146,9 +146,9 @@ module.exports = class Vote extends cmd.Command {
                     }
                 },
                 {
-                    key: 'image',
+                    key: 'image_url',
                     prompt: '敵の画像を送信してください。',
-                    type: 'integer',
+                    type: 'string',
                     validate: image_url => {
                         if (image_url.startsWith("https://")) return true;
                         return '有効なアドレスを入力してください。';
@@ -158,11 +158,11 @@ module.exports = class Vote extends cmd.Command {
         });
     }
     
-    run(msg, {question, detail , image}) {
+    run(msg, {question, detail , image_url}) {
         var emb = new discord.RichEmbed()
             .setTitle("属性:[" + question + "] ランク:【通常】\n" + detail + "が待ち構えている...!\nLv.???  HP: ??? 素早さ: 100")
             .setColor("RANDOM")
-            .setImage(image);
+            .setImage(image_url);
         msg.channel.send(emb)
     }
 };
