@@ -12,20 +12,20 @@ module.exports = class Tao extends cmd.Command {
             examples: ['!tao "属性" "名前" "https://gazou.src"'],
             args: [
                 {
-                    key: 'question',
+                    key: 'attribute',
                     prompt: '属性を入力してください。',
                     type: 'string',
-                    validate: question => {
-                        if (question.length < 31 && question.length > 0) return true;
+                    validate: attribute => {
+                        if (attribute.length < 31 && attribute.length > 0) return true;
                         return '属性は1~30文字にしてください。';
                     }
                 },
                 {
-                    key: 'detail',
+                    key: 'name',
                     prompt: '名前を入力してください。',
                     type: 'string',
-                    validate: desc => {
-                        if (desc.length < 31 && desc.length > 0) return true;
+                    validate: name => {
+                        if (name.length < 31 && name.length > 0) return true;
                         return '名前は1~30文字にしてください。';
                     }
                 },
@@ -42,9 +42,9 @@ module.exports = class Tao extends cmd.Command {
         });
     }
     
-    run(msg, {question, detail , image}) {
+    run(msg, {attribute, name , image}) {
         var emb = new discord.RichEmbed()
-            .setTitle("属性:[" + question + "] ランク:【通常】\n" + detail + "が待ち構えている...!\nLv.???  HP: ??? 素早さ: 100")
+            .setTitle("属性:[" + attribute + "] ランク:【通常】\n" + name + "が待ち構えている...!\nLv.???  HP: ??? 素早さ: 100")
             .setColor("RANDOM")
             .setImage(image);
         msg.channel.send(emb)
