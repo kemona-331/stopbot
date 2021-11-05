@@ -51,4 +51,12 @@ client.on('ready', () => {
   client.user.setActivity(config.activity);
 });
 
+client.on('message' , message => {
+if(message.content === config.prefix + "help"){
+const emb = new discord.RichEmbed()
+.setTitle("Commands")
+.addField("**= mmvote =**" , "> 投票")
+.addField("**= mmtao =**" , "> オリ敵")
+.addField("**= mmsay =**" , "> ")
+
 client.login(config.token);
