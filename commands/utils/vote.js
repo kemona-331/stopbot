@@ -166,3 +166,35 @@ module.exports = class Vote extends cmd.Command {
         msg.channel.send(emb)
     }
 };
+
+module.exports = class Vote extends cmd.Command {
+    constructor(client) {
+        super(client, {
+            name: 'say',
+            group: 'utils',
+            memberName: 'say',
+            description: "指定した場所にメッセージを送信。",
+            examples: ['!say "メッセージ" #一般'],
+            args: [
+                {
+                    key: 'question',
+                    prompt: '送信するメッセージを入力してください。',
+                    type: 'string',
+                    validate: question => {
+                        if (question.length < 2001 && question.length > 0) return true;
+                        return 'メッセージは1~2000文字にしてください。';
+                    }
+                },
+                {
+                    key: 'channel',
+                    prompt: '送信したいチャンネルを入力してください。',
+                    type: 'channel'
+                }
+            ]
+        });
+    }
+    
+    run(msg, {question, channel}) {
+        channel.send(question)
+    }
+};
