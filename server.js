@@ -48,7 +48,7 @@ client.registry
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
-  client.user.setPresence({ game: { name: config.activity , type: 'PLAYING' }, status: 'idle' });
+  client.user.setPresence({ game: { name: config.activity , type: config.type }, status: config.status });
 });
 
 client.login(config.token);
