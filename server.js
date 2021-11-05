@@ -48,15 +48,7 @@ client.registry
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
-  client.user.setActivity(config.activity);
+  client.user.setPresence({ game: { name: config.activity , type: 'PLAYING' }, status: 'idle' });
 });
-
-client.on('message' , message => {
-if(message.content === config.prefix + "help"){
-const emb = new discord.RichEmbed()
-.setTitle("Commands")
-.addField("**= mmvote =**" , "> 投票")
-.addField("**= mmtao =**" , "> オリ敵")
-.addField("**= mmsay =**" , "> ")
 
 client.login(config.token);
