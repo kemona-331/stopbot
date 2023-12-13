@@ -69,11 +69,11 @@ module.exports = {
   },
   async execute(interaction) {
     if(!interaction.member.permissions.has("ADMINISTRATOR")) return interaction.reply({ content: "サーバー管理者しか使えません", ephemeral: true })
-    const ch1 = interaction.options.getChannel("超激通知ch");
-    const ch2 = interaction.options.getChannel("超激通知ch");
+    const ch1 = interaction.options.getChannel("超激通知channel");
+    const ch2 = interaction.options.getChannel("tohru枠通知channel");
     const role1 = interaction.options.getRole("超激通知role");
     const role2 = interaction.options.getRole("tohru枠通知role");
-    const pet = interaction.options.getBoolean("ペット厳選ON/OFF");
+    const pet = interaction.options.getBoolean("ペット厳選機能");
     const percent = interaction.options.getInteger("ペット厳選数値");
     const stop = interaction.options.getBoolean("轢き殺し防止");
     let data = await db.get(interaction.guild.id)
@@ -82,12 +82,20 @@ module.exports = {
       await db.set(interaction.guild.id,data)
     }
     if(ch1) data[0].splice(0,1,ch1.id)
-    if(ch2) data[0].splice(1,1,ch1.id)
-    if(role1) data[1].splice(0,1,ch1.id)
-    if(role2) data[1].splice(1,1,ch1.id)
-    if(pet) data[2].splice(0,1,ch1.id)
-    if(percent) data[2].splice(1,1,ch1.id)
-    if(stop) data.splice(0,1,ch1.id)
+    if(ch2) data[0].splice(1,1,ch2.id)
+    if(role1) data[1].splice(0,1,role1.id)
+    if(role2) data[1].splice(1,1,role2.id)
+    if(pet) data[2].splice(0,1,pet)
+    if(percent) data[2].splice(1,1,percent)
+    if(stop) data.splice(3,1,stop)
+    const embed = new MessageEmbed()
+    .setTitle("設定状況:")
+    .addField(`= 超激通知用ch/role =`,`>>> ${ch1.toString() || undefined} / ${role1.toString() || undefined}`)
+    .addField(`= PET厳選機能 =`,`>>> ${pet} / ${percent}%以上`)
+    .addField(`= 超激通知用ch =`,`>>> ${ch1.toString() || undefined}`)
+    .addField(`= 超激通知用ch =`,`>>> ${ch1.toString() || undefined}`)
+    .setColor("RANDOM")
+    interaction.message.reply
   }
 }
 
