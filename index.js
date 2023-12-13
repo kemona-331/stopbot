@@ -56,20 +56,9 @@ if (process.env.DISCORD_BOT_TOKEN == undefined) {
 }
 
 client.on('ready', async () => {
-  let i = 0
-  setInterval(function(){
-    if(i == 0){
-      client.user.setActivity(`商品`, {
-        type: 'WATCHING'
-      });
-      i++
-    }else if(i == 1){
-      client.user.setActivity(`${client.guilds.cache.size}guilds | ${client.users.cache.size}members`, {
-        type: 'PLAYING'
-      });
-      i--
-    }
-  },5000)
+  client.user.setActivity(`${client.guilds.cache.size}guilds | ${client.users.cache.size}members`, {
+    type: 'PLAYING'
+  });
   const embed = new MessageEmbed()
   .setTitle("起動しました！")
   .setDescription(">>> ```diff\n+ Hello World!　　　　　``````diff\n+ 導入サーバー数:" + client.guilds.cache.size + "\n+ ユーザー数:" + client.users.cache.size + "```" + moment().format("YYYY-MM-DD HH:mm:ss"))
