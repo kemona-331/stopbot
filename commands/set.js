@@ -76,7 +76,18 @@ module.exports = {
     const pet = interaction.options.getBoolean("ペット厳選ON/OFF");
     const percent = interaction.options.getInteger("ペット厳選数値");
     const stop = interaction.options.getBoolean("轢き殺し防止");
-    console.log("a")
+    let data = await db.get(interaction.guild.id)
+    if(!data){
+      data = [[undefined,undefined],[undefined,undefined],[false,undefined],false]
+      await db.set(interaction.guild.id,data)
+    }
+    if(ch1) data[0].splice(0,1,ch1.id)
+    if(ch2) data[0].splice(1,1,ch1.id)
+    if(role1) data[1].splice(0,1,ch1.id)
+    if(role2) data[1].splice(1,1,ch1.id)
+    if(pet) data[2].splice(0,1,ch1.id)
+    if(percent) data[2].splice(1,1,ch1.id)
+    if(stop) data.splice(0,1,ch1.id)
   }
 }
 
