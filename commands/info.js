@@ -1,5 +1,5 @@
 const { Client, Intents, MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
-const { pagination, TypesButtons } = require('@devraelfreeze/discordjs-pagination');
+const { sendPaginatedEmbeds } = require('discord.js-embed-pagination');
 const client = new Client({
   partials: ["CHANNEL"],
   intents: new Intents(32767)
@@ -33,24 +33,9 @@ module.exports = {
       .setAuthor(`コマンド実行者:${interaction.user.tag}`, interaction.user.displayAvatarURL())
       .setColor("RANDOM")
     ]
-    await pagination({
-      embeds: embeds,
-      interaction: interaction,
-      time: 60000,
-      fastSkip: false,
-      pageTravel: false,
-      buttons: [
-        {
-          value: TypesButtons.previous,
-          label: 'Previous Page',
-          style: 'SUCCESS'
-        },
-        {
-          value: TypesButtons.next,
-          label: 'Next Page',
-          style: 'SUCCESS'
-        }
-      ]
+    await sendPaginatedEmbeds(interaction, embeds, {
+      previousLabel: '◀',
+      nextLabel: '▶',
     })
   }
 }
