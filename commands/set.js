@@ -52,13 +52,13 @@ module.exports = {
       },
       {
         type: "BOOLEAN",
-        name: "ペット厳選用",
-        description: "pet",
+        name: "ペット厳選機能",
+        description: "厳選時特定の確率以上の個体が出たら権限を剥奪",
       },
       {
-        type: "ROLE",
-        name: "tohru枠通知role",
-        description: "tohru枠の通知に使用するロールを選択",
+        type: "INTEGER",
+        name: "ペット厳選数値",
+        description: "入力された値以上の個体の場合は停止します",
       },
       {
         type: "BOOLEAN",
@@ -73,8 +73,10 @@ module.exports = {
     const ch2 = interaction.options.getChannel("超激通知ch");
     const role1 = interaction.options.getRole("超激通知role");
     const role2 = interaction.options.getRole("tohru枠通知role");
-    const role3 = interaction.options.getBoolean("轢き殺し防止");
-    console.log(role1,role2,role3,ch1,ch2)
+    const pet = interaction.options.getBoolean("ペット厳選ON/OFF");
+    const percent = interaction.options.getInteger("ペット厳選数値");
+    const stop = interaction.options.getBoolean("轢き殺し防止");
+    console.log("a")
   }
 }
 
