@@ -90,12 +90,13 @@ module.exports = {
     if(stop) data.splice(3,1,stop)
     const embed = new MessageEmbed()
     .setTitle("設定状況:")
-    .addField(`= 超激通知用ch/role =`,`>>> ${ch1.toString() || undefined} / ${role1.toString() || undefined}`)
-    .addField(`= PET厳選機能 =`,`>>> ${pet} / ${percent}%以上`)
-    .addField(`= 超激通知用ch =`,`>>> ${ch1.toString() || undefined}`)
-    .addField(`= 超激通知用ch =`,`>>> ${ch1.toString() || undefined}`)
+    .addField(`= 超激通知用ch/role =`,`>>> ${ch1?.toString() ?? "未設定"} / ${role1?.toString() ?? "未設定"}`)
+    .addField(`= tohru枠通知用ch/role =`,`>>> ${ch2?.toString() ?? "未設定"} / ${role2?.toString() ?? "未設定"}`)
+    .addField(`= PET厳選機能 =`,`>>> ${pet ?? "未設定"} / ${percent != undefined ? percent + "%" : "未設定"}`)
+    .addField(`= 轢き殺し防止 =`,`>>> ${stop ?? "未設定"}`)
     .setColor("RANDOM")
-    interaction.message.reply
+    interaction.reply({ content: "設定が完了しました！", ephemeral: true })
+    interaction.channel.send({ embeds: [ embed ] })
   }
 }
 
