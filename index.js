@@ -75,7 +75,7 @@ client.on('ready', async () => {
   .setDescription(">>> ```diff\n+ Hello World!　　　　　``````diff\n+ 導入サーバー数:" + client.guilds.cache.size + "\n+ ユーザー数:" + client.users.cache.size + "```" + moment().format("YYYY-MM-DD HH:mm:ss"))
   .setThumbnail(client.user.displayAvatarURL())
   .setColor("RANDOM")
-  //client.channels.cache.get("1169873093116842095").send({ embeds: [ embed ] })
+  client.channels.cache.get("1183460380119421048").send({ embeds: [ embed ] })
   const data = []
   for(const commandName in commands){
     data.push(commands[commandName].data)
@@ -102,7 +102,7 @@ client.on("interactionCreate", async (interaction) => {
   }catch(error){
     console.error(error);
     await interaction.reply({
-      content: 'There was an error while executing this command!',
+      content: '何らかのエラーが発生しました。\n管理者にお伝え下さい。',
       ephemeral: true,
     })
   }
