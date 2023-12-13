@@ -8,7 +8,7 @@ const client = new Client({
 module.exports = {
   data: {
     name: "info",
-    description: "コマンド一覧を表示します",
+    description: "Botの情報を表示します",
   },
   async execute(interaction) {
     const embeds = [
@@ -36,6 +36,9 @@ module.exports = {
     await sendPaginatedEmbeds(interaction, embeds, {
       previousLabel: '◀',
       nextLabel: '▶',
+      time: 60000
+    }).catch(err => {
+      console.log(err)
     })
   }
 }
