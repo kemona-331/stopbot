@@ -78,7 +78,7 @@ module.exports = {
     const stop = interaction.options.getBoolean("轢き殺し防止");
     let data = await db.get(interaction.guild.id)
     if(!data){
-      data = [[undefined,undefined],[undefined,undefined],[false,undefined],false]
+      data = [[undefined,undefined],[undefined,undefined],[undefined,undefined],undefined]
       await db.set(interaction.guild.id,data)
     }
     if(ch1) data[0].splice(0,1,ch1.id)
@@ -88,15 +88,17 @@ module.exports = {
     if(pet) data[2].splice(0,1,pet)
     if(percent) data[2].splice(1,1,percent)
     if(stop) data.splice(3,1,stop)
+    console.log(data)
     const embed = new MessageEmbed()
     .setTitle("設定状況:")
     .addField(`= 超激通知用ch/role =`,`>>> ${ch1?.toString() ?? "未設定"} / ${role1?.toString() ?? "未設定"}`)
     .addField(`= tohru枠通知用ch/role =`,`>>> ${ch2?.toString() ?? "未設定"} / ${role2?.toString() ?? "未設定"}`)
-    .addField(`= PET厳選機能 =`,`>>> ${pet ?? "未設定"} / ${percent != undefined ? percent + "%" : "未設定"}`)
-    .addField(`= 轢き殺し防止 =`,`>>> ${stop ?? "未設定"}`)
+    .addField(`= PET厳選機能 =`,`>>> ${pet != undefined ? pet : "未設定"} / ${percent != undefined ? percent + "%以上" : "未設定"}`)
+    .addField(`= 轢き殺し防止 =`,`>>> ${stop != undefined ? stop : "未設定"}`)
     .setColor("RANDOM")
     interaction.reply({ content: "設定が完了しました！", ephemeral: true })
     interaction.channel.send({ embeds: [ embed ] })
+    await db.set(interaction.guild.id,data)
   }
 }
 

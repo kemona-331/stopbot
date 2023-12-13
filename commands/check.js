@@ -30,7 +30,7 @@ module.exports = {
   async execute(interaction) {
     let data = await db.get(interaction.guild.id)
     if(!data){
-      data = [[undefined,undefined],[undefined,undefined],[false,undefined],false]
+      data = [[undefined,undefined],[undefined,undefined],[undefined,undefined],undefined]
       await db.set(interaction.guild.id,data)
     }
     const embed = new MessageEmbed()
@@ -38,7 +38,7 @@ module.exports = {
     .addField(`= 超激通知用ch/role =`,`>>> ${data[0][0] != undefined ? "<#" + data[0][0] + ">" : "未設定"} / ${data[1][0] != undefined ? "<@&" + data[1][0] + ">" : "未設定"}`)
     .addField(`= tohru枠通知用ch/role =`,`>>> ${data[0][1] != undefined ? "<#" + data[0][1] + ">" : "未設定"} / ${data[1][1] != undefined ? "<@&" + data[1][1] + ">" : "未設定"}`)
     .addField(`= PET厳選機能 =`,`>>> ${data[2][0] != undefined ? data[2][0] : "未設定"} / ${data[2][1] != undefined ? data[2][1] + "%以上" : "未設定"}`)
-    .addField(`= 轢き殺し防止 =`,`>>> ${data[3] ?? "未設定"}`)
+    .addField(`= 轢き殺し防止 =`,`>>> ${data[3] != undefined ? data[3] : "未設定"}`)
     .setColor("RANDOM")
     interaction.reply({ embeds: [ embed ] })
   }

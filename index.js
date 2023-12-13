@@ -8,6 +8,8 @@ const axios = require('axios');
 const util = require('util');
 const path = require('path');
 const cron = require('node-cron');
+const Keyv = require('keyv');
+const db = new Keyv(`sqlite://guild.sqlite`, { table: "settings" });
 const client = new Client({
   partials: ["CHANNEL"],
   intents: new Intents(32767)
