@@ -3,6 +3,9 @@ const client = new Client({
   partials: ["CHANNEL"],
   intents: new Intents(32767)
 });
+const Keyv = require('keyv');
+const db = new Keyv(`sqlite://guild.sqlite`, { table: "settings" });
+
 const newbutton = (buttondata) => {
   return {
     components: buttondata.map((data) => {
@@ -26,13 +29,35 @@ module.exports = {
     description: "通知などに関する情報を設定します",
     options: [
       {
+        type: "CHANNEL",
+        name: "超激通知channel",
+        description: "超激の通知に使用するチャンネルを選択",
+        channel_types: [0],
+      },
+      {
+        type: "CHANNEL",
+        name: "tohru枠通知channel",
+        description: "tohru枠の通知に使用するチャンネルを選択",
+        channel_types: [0],
+      },
+      {
         type: "ROLE",
-        name: "超激通知",
+        name: "超激通知role",
         description: "超激の通知に使用するロールを選択",
       },
       {
         type: "ROLE",
-        name: "tohru枠通知",
+        name: "tohru枠通知role",
+        description: "tohru枠の通知に使用するロールを選択",
+      },
+      {
+        type: "BOOLEAN",
+        name: "ペット厳選用",
+        description: "pet",
+      },
+      {
+        type: "ROLE",
+        name: "tohru枠通知role",
         description: "tohru枠の通知に使用するロールを選択",
       },
       {
@@ -40,26 +65,16 @@ module.exports = {
         name: "轢き殺し防止",
         description: "轢き殺し防止のON/OFFを切り替えます",
       },
-      {
-        type: "STRING",
-        name: "概要",
-        description: "パネルの概要",
-      }
     ],
   },
   async execute(interaction) {
     if(!interaction.member.permissions.has("ADMINISTRATOR")) return interaction.reply({ content: "サーバー管理者しか使えません", ephemeral: true })
-    const role = interaction.options.getRole("ロール");
-    let title = interaction.options.getString("タイトル"),
-        description = interaction.options.getString("概要")
-    if(interaction.guild.me.roles.highest.comparePositionTo(role) <= 0) return interaction.reply({ content: "ロール順位が不適切です\nBOTの最高位のロール順位を上げてください\nhttps://media.discordapp.net/attachments/950018540424032297/1182244544360763462/exvh5-r5cvs.gif?ex=6583fe08&is=65718908&hm=0f6d4e84905ecb3eea6f2f4c2459eb89f456d8b55601af85320facc47edff675&=&width=468&height=388", ephemeral: true }) 
-    if(title == null) title = "認証パネル"
-    if(description == null) description = "下のボタンを押して認証してください"
-    const embed = new MessageEmbed()
-    .setTitle(title)
-    .setDescription(description)
-    .setColor("RANDOM")
-    interaction.reply({ embeds: [ embed ], components: [ newbutton([ { id: `verify-${role.id}`, emoji: "✅" } ]) ] })
+    const ch1 = interaction.options.getChannel("超激通知ch");
+    const ch2 = interaction.options.getChannel("超激通知ch");
+    const role1 = interaction.options.getRole("超激通知role");
+    const role2 = interaction.options.getRole("tohru枠通知role");
+    const role3 = interaction.options.getBoolean("轢き殺し防止");
+    console.log(role1,role2,role3,ch1,ch2)
   }
 }
 
