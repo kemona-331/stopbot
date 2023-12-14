@@ -76,12 +76,24 @@ client.on('ready', async () => {
   console.log(`${client.user.tag} is ready!`);
 });
 
+client.on("messageCreate", async message => {
+  const data = await db.get(message.guild.id)
+  //通知機構
+  
+  //P厳選
+  //自動変更
+  if(message.channel.topic == "none-auto:100"){
+    message.channel.send
+  }else if(message.channel.topic == "none-auto:100"){
+    message.channel.send
+  }
+})
+
 client.on("interactionCreate", async interaction => {
   if(!interaction.isButton()){
     return;
   }
 })
-
 
 client.on("interactionCreate", async (interaction) => {
   if(!interaction.isCommand()){

@@ -69,10 +69,10 @@ module.exports = {
     if(!interaction.member.permissions.has("ADMINISTRATOR")) return interaction.reply({ content: "サーバー管理者しか使えません", ephemeral: true })
     const ch1 = interaction.options.getBoolean("超激通知channel");
     const ch2 = interaction.options.getBoolean("tohru枠通知channel");
-    const role1 = interaction.options.getRole("超激通知role");
-    const role2 = interaction.options.getRole("tohru枠通知role");
+    const role1 = interaction.options.getBoolean("超激通知role");
+    const role2 = interaction.options.getBoolean("tohru枠通知role");
     const pet = interaction.options.getBoolean("ペット厳選機能");
-    const percent = interaction.options.getInteger("ペット厳選数値");
+    const percent = interaction.options.getBoolean("ペット厳選数値");
     const stop = interaction.options.getBoolean("轢き殺し防止");
     let data = await db.get(interaction.guild.id)
     if(!data){
