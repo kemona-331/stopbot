@@ -88,8 +88,14 @@ client.on("messageCreate", async message => {
     const image = receivedEmbed.image.url || undefined
     const attribute = receivedEmbed.author.iconURL
     //通知機構
-    if(receivedEmbed.author && receivedEmbed.author.name.match(/: 通常/)){
-      
+    if(receivedEmbed.author && receivedEmbed.author.name.match(/: 超激レア|: 最強|: 大地の覇者|: 原初|: ありがとう！|: 天使|: 龍帝|: 三女神/)){
+      const embed = new MessageEmbed()
+      .setAuthor(`属性: ${zokusei}`,attribute)
+      .setDescription(`<#${message.channel.id}>で**${rank}${name}**が出現しました！\n\nLv.\`${Number(lv).toLocaleString()}\` HP \`${Number(lv*10+50).toLocaleString()}\`\n\n[**Direct Link**](https://discord.com/channels/${message.guild.id}/${message.channel.id}/${message.id})`)
+      .setFooter("User TAO")
+      .setColor("RANDOM")
+      if(image != undefined) embed.setThumbnail(image)
+      message.reply({ embeds: [ embed ] })
     }
     //自動変更
     if(message.channel.topic == "none-auto:100"){
