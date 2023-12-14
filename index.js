@@ -80,29 +80,47 @@ client.on("messageCreate", async message => {
   if(message.author.id != "526620171658330112") return
   const receivedEmbed = message.embeds[0]
   const data = await db.get(message.guild.id)
-  if(receivedEmbed.author && receivedEmbed.author.name.match(/: 超激レア/)){
+  if(receivedEmbed.title && receivedEmbed)
     const lv = receivedEmbed.title.split("\n")[1].replaceAll(",","").match(/^\D+(\d+)\D+(\d+)\D+(\d+)$/)[1]
     //通知機構
-    //自動変更
     
+    //自動変更
     if(message.channel.topic == "none-auto:100"){
-      
-      const fuga = Math.floor(Number(lv) / 100) * 100
-          if(message.channel.name.match(/lv+\d+$/)){
-            const hogehoge = message.channel.name.match(/lv+(\d+)$/)
-            if(hogehoge[1] == fuga){
-              return;
-            }
-            const name = message.channel.name.replace(/lv+\d+$/,`lv${fuga}`)
-            await message.channel.setName(name)
-            return;
-          }
-          await message.channel.setName(`${message.channel.name}-lv${fuga}`)
+      const level = Math.floor(Number(lv) / 100) * 100
+      if(message.channel.name.match(/lv+\d+$/)){
+        const n = message.channel.name.match(/lv+(\d+)$/)
+        if(n[1] == level){
+          return;
         }
+        const name = message.channel.name.replace(/lv+\d+$/,`lv${level}`)
+        await message.channel.setName(name)
+        return;
+      }
+      await message.channel.setName(`${message.channel.name}-lv${level}`)
     }else if(message.channel.topic == "none-auto:1000"){
-      
+      const level = Math.floor(Number(lv) / 1000) * 1000
+      if(message.channel.name.match(/lv+\d+$/)){
+        const n = message.channel.name.match(/lv+(\d+)$/)
+        if(n[1] == level){
+          return;
+        }
+        const name = message.channel.name.replace(/lv+\d+$/,`lv${level}`)
+        await message.channel.setName(name)
+        return;
+      }
+      await message.channel.setName(`${message.channel.name}-lv${level}`)
     }else if(message.channel.topic == "none-auto:10000"){
-      
+      const level = Math.floor(Number(lv) / 10000) * 10000
+      if(message.channel.name.match(/lv+\d+$/)){
+        const n = message.channel.name.match(/lv+(\d+)$/)
+        if(n[1] == level){
+          return;
+        }
+        const name = message.channel.name.replace(/lv+\d+$/,`lv${level}`)
+        await message.channel.setName(name)
+        return;
+      }
+      await message.channel.setName(`${message.channel.name}-lv${level}`)
     }
   }
   //P厳選
