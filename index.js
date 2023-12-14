@@ -85,10 +85,12 @@ client.on("messageCreate", async message => {
     const rank = `【${receivedEmbed.author.name.split(":")[2].replace(" ","")}】`
     const name = receivedEmbed.title.split("\n")[0].replace("が待ち構えている...！","")
     const lv = receivedEmbed.title.split("\n")[1].replaceAll(",","").match(/^\D+(\d+)\D+(\d+)\D+(\d+)$/)[1]
-    const hp = receivedEmbed.title.split("\n")[1].replaceAll(",","").match(/^\D+(\d+)\D+(\d+)\D+(\d+)$/)[2]
-    console.log(zokusei,rank,name,lv,hp)
+    const image = receivedEmbed.image.url || undefined
+    const attribute = receivedEmbed.author.iconURL
     //通知機構
-    if(receivedEmbed.author && receivedEmbed.author.name.match(/: 超激レア/)){}
+    if(receivedEmbed.author && receivedEmbed.author.name.match(/: 通常/)){
+      
+    }
     //自動変更
     if(message.channel.topic == "none-auto:100"){
       const level = Math.floor(Number(lv) / 100) * 100
