@@ -80,8 +80,13 @@ client.on("messageCreate", async message => {
   if(message.author.id != "526620171658330112") return
   const receivedEmbed = message.embeds[0]
   const data = await db.get(message.guild.id)
-  if(receivedEmbed && receivedEmbed.title && receivedEmbed.title.match(/待ち構えている...！/)){
+  if(receivedEmbed && receivedEmbed.title && receivedEmbed.title.match(/待ち構えている...！/) && receivedEmbed.author){
+    const zokusei = receivedEmbed.author.name.match(/\[(.*?)\]/g)[0]
+    const rank = `【${receivedEmbed.author.name.split(":")[2].replace(" ","")}】`
+    const name = receivedEmbed.title.split("\n")[0].replace("が待ち構えている...！","")
     const lv = receivedEmbed.title.split("\n")[1].replaceAll(",","").match(/^\D+(\d+)\D+(\d+)\D+(\d+)$/)[1]
+    const hp = receivedEmbed.title.split("\n")[1].replaceAll(",","").match(/^\D+(\d+)\D+(\d+)\D+(\d+)$/)[2]
+    console.log(zokusei,rank,name,lv,hp)
     //通知機構
     if(receivedEmbed.author && receivedEmbed.author.name.match(/: 超激レア/)){}
     //自動変更
