@@ -80,10 +80,10 @@ client.on("messageCreate", async message => {
   if(message.author.id != "526620171658330112") return
   const receivedEmbed = message.embeds[0]
   const data = await db.get(message.guild.id)
-  if(receivedEmbed.title && receivedEmbed)
+  if(receivedEmbed && receivedEmbed.title && receivedEmbed.title.match(/待ち構えている...！/)){
     const lv = receivedEmbed.title.split("\n")[1].replaceAll(",","").match(/^\D+(\d+)\D+(\d+)\D+(\d+)$/)[1]
     //通知機構
-    
+    if(receivedEmbed.author && receivedEmbed.author.name.match(/: 超激レア/)){}
     //自動変更
     if(message.channel.topic == "none-auto:100"){
       const level = Math.floor(Number(lv) / 100) * 100
