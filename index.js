@@ -89,32 +89,37 @@ client.on("messageCreate", async message => {
     const attribute = receivedEmbed.author.iconURL
     //通知機構
     if(["【超激レア】","【最強】","【大地の覇者】","【原初】","【ありがとう！】","【天使】","【龍帝】","【三女神】"].includes(rank)){
-      let m
+      let m = ""
       const board = new MessageEmbed()
       .setColor("RANDOM")
       if(rank == "【超激レア】"){
-        if(!data[0][0] || !data[0][1]){
+        if(!data || !data[0][0] || !data[0][1]){
           board.setTitle("必要な情報が設定されていないので通知は行いません")
         }else{
           board.setTitle("超激レアだよ！")
           m = `<@&${data[0][1]}>さんたち！超激レアです！`
         }
       }else{
-        if(!data[1][0] || !data[1][1]){
+        if(!data || !data[1][0] || !data[1][1]){
           board.setTitle("必要な情報が設定されていないので通知は行いません")
         }else{
           board.setTitle("tohru枠だよ！")
           m = `<@&${data[1][1]}>さんたち！tohru枠です！`
         }
       }
-      const msg = await message.channel.send({ embeds: [ board ] })
+      let msg
+      if(m == ""){
+        msg = await message.channel.send({ embeds: [ board ] })
+      }else{
+        
+        msg = 
+      }
       const embed = new MessageEmbed()
       .setAuthor(`属性: ${zokusei}`,attribute)
       .setDescription(`<#${message.channel.id}>で**${rank}${name}**が出現しました！\n\nLv.\`${Number(lv).toLocaleString()}\` HP \`${Number(lv*10+50).toLocaleString()}\`\n\n[**Direct Link**](https://discord.com/channels/${message.guild.id}/${message.channel.id}/${message.id})`)
       .setFooter("User TAO")
       .setColor("RANDOM")
       if(image != undefined) embed.setThumbnail(image)
-      message.reply({ embeds: [ embed ] })
     }
     //自動変更
     if(message.channel.topic == "none-auto:100"){
