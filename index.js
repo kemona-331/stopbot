@@ -77,16 +77,35 @@ client.on('ready', async () => {
 });
 
 client.on("messageCreate", async message => {
+  if(message.author.id != "526620171658330112") return
+  const receivedEmbed = message.embeds[0]
   const data = await db.get(message.guild.id)
-  //通知機構
-  
-  //P厳選
-  //自動変更
-  if(message.channel.topic == "none-auto:100"){
-    message.channel.send
-  }else if(message.channel.topic == "none-auto:100"){
-    message.channel.send
+  if(receivedEmbed.author && receivedEmbed.author.name.match(/: 超激レア/)){
+    const lv = receivedEmbed.title.split("\n")[1].replaceAll(",","").match(/^\D+(\d+)\D+(\d+)\D+(\d+)$/)[1]
+    //通知機構
+    //自動変更
+    
+    if(message.channel.topic == "none-auto:100"){
+      
+      const fuga = Math.floor(Number(lv) / 100) * 100
+          if(message.channel.name.match(/lv+\d+$/)){
+            const hogehoge = message.channel.name.match(/lv+(\d+)$/)
+            if(hogehoge[1] == fuga){
+              return;
+            }
+            const name = message.channel.name.replace(/lv+\d+$/,`lv${fuga}`)
+            await message.channel.setName(name)
+            return;
+          }
+          await message.channel.setName(`${message.channel.name}-lv${fuga}`)
+        }
+    }else if(message.channel.topic == "none-auto:1000"){
+      
+    }else if(message.channel.topic == "none-auto:10000"){
+      
+    }
   }
+  //P厳選
 })
 
 client.on("interactionCreate", async interaction => {
