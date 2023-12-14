@@ -88,7 +88,15 @@ client.on("messageCreate", async message => {
     const image = receivedEmbed.image.url || undefined
     const attribute = receivedEmbed.author.iconURL
     //通知機構
-    if(receivedEmbed.author && receivedEmbed.author.name.match(/: 超激レア|: 最強|: 大地の覇者|: 原初|: ありがとう！|: 天使|: 龍帝|: 三女神/)){
+    if(["【超激レア】","【最強】","【大地の覇者】","【原初】","【ありがとう！】","【天使】","【龍帝】","【三女神】"].includes(rank)){
+      const board = new MessageEmbed()
+      .setColor("RANDOM")
+      if(rank == "【超激レア】"){
+        if(data[0][0])
+        embed.setTitle("超激レアだよ！")
+      }else{
+        embed.setTitle("tohru枠だよ！")
+      }
       const embed = new MessageEmbed()
       .setAuthor(`属性: ${zokusei}`,attribute)
       .setDescription(`<#${message.channel.id}>で**${rank}${name}**が出現しました！\n\nLv.\`${Number(lv).toLocaleString()}\` HP \`${Number(lv*10+50).toLocaleString()}\`\n\n[**Direct Link**](https://discord.com/channels/${message.guild.id}/${message.channel.id}/${message.id})`)
