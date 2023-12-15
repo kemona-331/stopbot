@@ -53,12 +53,12 @@ module.exports = {
       {
         type: "BOOLEAN",
         name: "ペット厳選機能",
-        description: "厳選時特定の確率以上の個体が出たら権限を剥奪",
+        description: "厳選時特定の確率以上の個体が出たら通知",
       },
       {
         type: "INTEGER",
         name: "ペット厳選数値",
-        description: "入力された値以上の個体の場合は停止します",
+        description: "入力された値以上の個体の場合通知",
       },
       {
         type: "BOOLEAN",

@@ -119,7 +119,7 @@ client.on("messageCreate", async message => {
         const but2 = new MessageButton()
         const but3 = new MessageButton()
         but1
-        .setLabel("発言不可解除")
+        .setLabel("轢き防止解除")
         .setStyle("SUCCESS")
         .setCustomId("remove")
         .setEmoji("🤞")
@@ -224,8 +224,11 @@ client.on('messageUpdate', async (oldMessage, newMessage) => {
   if(!data || !data[2][0] || !data[2][1]) return
   if(newMessage.author.id == "526620171658330112" && embed && embed.description && embed.description.match(/仲間になりたそうに/)){
     if(Number(embed.fields[1].value.replaceAll(">","").replaceAll("*","").replaceAll(" ","").replaceAll("%","")) >= data[2][1]){
-      const embed = new MessageEmbed()
+      const emb = new MessageEmbed()
       .setTitle(`攻撃確率${embed.fields[1].value.replaceAll(">","").replaceAll("*","").replaceAll(" ","")}！`)
+      .setFooter(`検知対象:${data[2][1]}%以上`)
+      .setColor("RANDOM")
+      newMessage.reply({ embeds: [ emb ] })
     }
   }
 })
