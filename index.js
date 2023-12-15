@@ -151,7 +151,7 @@ client.on("messageCreate", async message => {
       .setColor("RANDOM")
       if(image != undefined) embed.setThumbnail(image)
       client.on("interactionCreate", async interaction => {
-        if(!interaction.isButton()){
+        if(!interaction.isButton() || interaction.message.id == msg.id){
           return;
         }
         if(interaction.customId == "remove"){
