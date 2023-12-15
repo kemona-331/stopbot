@@ -88,7 +88,7 @@ client.on("messageCreate", async message => {
     const image = receivedEmbed.image.url || undefined
     const attribute = receivedEmbed.author.iconURL
     //通知機構
-    if(["【強敵】","【超激レア】","【最強】","【大地の覇者】","【原初】","【ありがとう！】","【天使】","【龍帝】","【三女神】"].includes(rank)){
+    if(["【超激レア】","【最強】","【大地の覇者】","【原初】","【ありがとう！】","【天使】","【龍帝】","【三女神】"].includes(rank)){
       let m = ""
       let index
       const board = new MessageEmbed()
@@ -216,7 +216,18 @@ client.on("messageCreate", async message => {
       await message.channel.setName(`${message.channel.name}-lv${level}`)
     }
   }
-  //P厳選
+})
+
+client.on('messageUpdate', async (oldMessage, newMessage) => {
+  const data = await db.get(newMessage.guild.id)
+  const embed = newMessage.embeds[0]
+  if(!data || !data[2][0] || !data[2][1]) return
+  if(newMessage.author.id == "526620171658330112" && embed && embed.description && embed.description.match(/仲間になりたそうに/)){
+    if(Number(embed.fields[1].value.replaceAll(">","").replaceAll("*","").replaceAll(" ","").replaceAll("%","")) >= data[2][1]){
+      const embed = new MessageEmbed()
+      .setTitle(`攻撃確率${embed.fields[1].value.replaceAll(">","").replaceAll("*","").replaceAll(" ","")}！`)
+    }
+  }
 })
 
 client.on("interactionCreate", async interaction => {
