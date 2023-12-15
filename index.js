@@ -233,12 +233,6 @@ client.on('messageUpdate', async (oldMessage, newMessage) => {
   }
 })
 
-client.on("interactionCreate", async interaction => {
-  if(!interaction.isButton()){
-    return;
-  }
-})
-
 client.on("interactionCreate", async (interaction) => {
   if(!interaction.isCommand()){
     return;
@@ -252,61 +246,6 @@ client.on("interactionCreate", async (interaction) => {
       content: '何らかのエラーが発生しました。\n管理者にお伝え下さい。',
       ephemeral: true,
     })
-  }
-});
-
-client.on('modalSubmit', async interaction => {
-  if(interaction.customId.startsWith("vending-")){
-    const [number,quantity,paypay] = ['number','quantity','paypay']
-		.map(id => interaction.getTextInputValue(id));
-    let link
-    const value = paypay.split(/\r\n|\n/g)
-    for(let i in value){
-      if(value[i].match(/^https?:\/\/[^   ]/i)){
-        link = value[i]
-      }
-    }
-    if(link == undefined) return interaction.reply({ content: "PayPayの送金リンクが検出されませんでした", ephemeral: true })
-    const category = interaction.customId.split("-")[1]
-    const role = interaction.customId.split("-")[2]
-    const numbers = interaction.customId.split("-")[3].split("/")
-    if(!numbers.includes(number)) return interaction.reply({ content: "登録されていない商品番号です", ephemeral: true })
-    let newChannel
-    if(category == "undefined"){
-      newChannel = await interaction.guild.channels.create(`🎫-${interaction.user.username}`, {
-        type: 'GUILD_TEXT',
-        topic: interaction.user.id,
-      });
-    }else{
-      newChannel = await interaction.guild.channels.create(`🎫-${interaction.user.username}`, {
-        type: 'GUILD_TEXT',
-        parent: category,
-        topic: interaction.user.id,
-      });
-    }
-    await newChannel.permissionOverwrites.create(interaction.user.id, {
-      VIEW_CHANNEL: true,
-    });
-    await newChannel.permissionOverwrites.create(interaction.guild.roles.everyone, {
-      VIEW_CHANNEL: false,
-    });
-    interaction.reply({ content: `${newChannel.toString()}を作成しました。`, ephemeral: true })
-    const info_embed = new MessageEmbed()
-    .setTitle("スタッフの対応をお待ち下さい。")
-    .addField("商品番号:",`>>> ${number}`)
-    .addField("個数:",`>>> ${quantity}`)
-    .addField("送金リンク:",`>>> ${link}`)
-    .setColor("RANDOM")
-    const del_embed = new MessageEmbed()
-    .setDescription("チケットを削除したい場合は下のボタンを押してください")
-    .setColor("RANDOM")
-    newChannel.send({ content: `<@${interaction.user.id}>`, embeds: [ info_embed, del_embed ], components: [ newbutton([ { "id": "delete", label: "チケットを削除", style: "DANGER" } ]) ] })
-    if(role != "undefined"){
-      const msg = await newChannel.send(`<@&${role.toString()}>`)
-      setTimeout(function(){
-        msg.delete()
-      },3000)
-    }
   }
 });
 
