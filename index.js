@@ -111,6 +111,7 @@ client.on("messageCreate", async message => {
         }
       }
       let msg
+      let row
       if(m == ""){
         msg = await message.channel.send({ embeds: [ board ] })
       }else{
@@ -139,7 +140,7 @@ client.on("messageCreate", async message => {
         }else{
           but1.setDisabled(true)
         }
-        const row = new MessageActionRow()
+        row = new MessageActionRow()
         .addComponents(but1,but2,but3)
         msg = await message.channel.send({ embeds: [ board ], components: [ row ] })
       }
@@ -155,12 +156,22 @@ client.on("messageCreate", async message => {
         }
         if(interaction.customId == "remove"){
           const tao = client.users.cache.get("526620171658330112")
+          row.components[0].setDisabled(true)
+          row.components[1].setDisabled(false)
+          row.components[2].setDisabled(false)
+          msg.edit({ embeds:[ board ], components: [ row ] });
+          await interaction.deferUpdate();
           interaction.channel.permissionOverwrites.edit(tao, { VIEW_CHANNEL: true }).catch(console.error);
         }
         if(interaction.customId == "mt"){
-          const ch = client.channels.cache.get(data[1][index])
-          ch.send({ content: m, embeds: [ embed ] })
-          }
+          const ch = client.channels.cache.get(data[0][index])
+          const notify = await ch.send({ content: m, embeds: [ embed ] })
+          const success = new MessageEmbed()
+          .setTitle("通知完了")
+          .setURL(`https://discord.com/channels/${notify.guild.id}/${notify.channel.id}/${notify.id}`)
+          .setColor("RANDOM")
+          interaction.message.edit({ embeds:[success], components:[ newbutton([ { id: "x", emoji: "❎", style: 2, disabled: true } ]) ] })
+        }
         if(interaction.customId == "nomt"){
           interaction.message.delete()
         }
