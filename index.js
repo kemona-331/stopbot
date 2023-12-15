@@ -151,10 +151,10 @@ client.on("messageCreate", async message => {
       .setColor("RANDOM")
       if(image != undefined) embed.setThumbnail(image)
       client.on("interactionCreate", async interaction => {
-        if(!interaction.isButton() || interaction.message.id == msg.id){
+        if(!interaction.isButton()){
           return;
         }
-        if(interaction.customId == "remove"){
+        if(interaction.message.id == msg.id && interaction.customId == "remove"){
           const tao = client.users.cache.get("526620171658330112")
           row.components[0].setDisabled(true)
           row.components[1].setDisabled(false)
@@ -163,7 +163,7 @@ client.on("messageCreate", async message => {
           await interaction.deferUpdate();
           interaction.channel.permissionOverwrites.edit(tao, { VIEW_CHANNEL: true }).catch(console.error);
         }
-        if(interaction.customId == "mt"){
+        if(interaction.message.id == msg.id && interaction.customId == "mt"){
           const ch = client.channels.cache.get(data[0][index])
           const notify = await ch.send({ content: m, embeds: [ embed ] })
           const success = new MessageEmbed()
@@ -172,7 +172,7 @@ client.on("messageCreate", async message => {
           .setColor("RANDOM")
           interaction.message.edit({ embeds:[success], components:[ newbutton([ { id: "x", emoji: "❎", style: 2, disabled: true } ]) ] })
         }
-        if(interaction.customId == "nomt"){
+        if(interaction.message.id == msg.id && interaction.customId == "nomt"){
           interaction.message.delete()
         }
       })
