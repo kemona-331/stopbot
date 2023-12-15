@@ -88,7 +88,7 @@ client.on("messageCreate", async message => {
     const image = receivedEmbed.image.url || undefined
     const attribute = receivedEmbed.author.iconURL
     //通知機構
-    if(["【超激レア】","【最強】","【大地の覇者】","【原初】","【ありがとう！】","【天使】","【龍帝】","【三女神】"].includes(rank)){
+    if(["【強敵】","【超激レア】","【最強】","【大地の覇者】","【原初】","【ありがとう！】","【天使】","【龍帝】","【三女神】"].includes(rank)){
       let m = ""
       const board = new MessageEmbed()
       .setColor("RANDOM")
@@ -108,11 +108,37 @@ client.on("messageCreate", async message => {
         }
       }
       let msg
-      if(m == ""){
+      if(m != ""){
         msg = await message.channel.send({ embeds: [ board ] })
       }else{
-        
-        msg = 
+        const but1 = new MessageButton()
+        const but2 = new MessageButton()
+        const but3 = new MessageButton()
+        but1
+        .setLabel("発言不可解除")
+        .setStyle("SUCCESS")
+        .setCustomId("remove")
+        .setEmoji("🤞")
+        but2
+        .setLabel("通知")
+        .setStyle("PRIMARY")
+        .setCustomId("mt")
+        .setEmoji("✅")
+        but3
+        .setLabel("通知しない")
+        .setStyle("DANGER")
+        .setCustomId("nomt")
+        .setEmoji("❎")
+        if(data[3] == true){
+          message.channel.permissionOverwrites.edit(message.author, { VIEW_CHANNEL: false }).catch(console.error);
+          but2.setDisabled(true)
+          but3.setDisabled(true)
+        }else{
+          but1.setDisabled(true)
+        }
+        const row = new MessageActionRow()
+        .addComponents(but1,but2,but3)
+        msg = await message.channel.send({ embeds: [ board ], components: [ row ] })
       }
       const embed = new MessageEmbed()
       .setAuthor(`属性: ${zokusei}`,attribute)
@@ -166,6 +192,9 @@ client.on("messageCreate", async message => {
 client.on("interactionCreate", async interaction => {
   if(!interaction.isButton()){
     return;
+  }
+  if(interaction.customId == "remove"){
+    channel.permissionOverwrites.edit(, { VIEW_CHANNEL: false }).catch(console.error);
   }
 })
 
