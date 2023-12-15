@@ -58,7 +58,7 @@ if (process.env.DISCORD_BOT_TOKEN == undefined) {
 }
 
 client.on('ready', async () => {
-  client.user.setActivity(`${client.guilds.cache.size}guilds | ${client.users.cache.size}members`, {
+  client.user.setActivity(`Made By kamui_kun | ${client.guilds.cache.size}servers | ${client.users.cache.size}members`, {
     type: 'PLAYING'
   });
   const embed = new MessageEmbed()
