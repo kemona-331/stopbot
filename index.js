@@ -90,25 +90,28 @@ client.on("messageCreate", async message => {
     //通知機構
     if(["【強敵】","【超激レア】","【最強】","【大地の覇者】","【原初】","【ありがとう！】","【天使】","【龍帝】","【三女神】"].includes(rank)){
       let m = ""
+      let index
       const board = new MessageEmbed()
       .setColor("RANDOM")
       if(rank == "【超激レア】"){
-        if(!data || !data[0][0] || !data[0][1]){
+        if(!data || !data[0][0] || !data[1][0]){
           board.setTitle("必要な情報が設定されていないので通知は行いません")
         }else{
           board.setTitle("超激レアだよ！")
-          m = `<@&${data[0][1]}>さんたち！超激レアです！`
+          m = `<@&${data[1][0]}>さんたち！超激レアです！`
+          index = 0
         }
       }else{
-        if(!data || !data[1][0] || !data[1][1]){
+        if(!data || !data[0][1] || !data[1][1]){
           board.setTitle("必要な情報が設定されていないので通知は行いません")
         }else{
           board.setTitle("tohru枠だよ！")
           m = `<@&${data[1][1]}>さんたち！tohru枠です！`
+          index = 1
         }
       }
       let msg
-      if(m != ""){
+      if(m == ""){
         msg = await message.channel.send({ embeds: [ board ] })
       }else{
         const but1 = new MessageButton()
@@ -122,7 +125,7 @@ client.on("messageCreate", async message => {
         but2
         .setLabel("通知")
         .setStyle("PRIMARY")
-        .setCustomId("mt")
+        .setCustomId(`mt`)
         .setEmoji("✅")
         but3
         .setLabel("通知しない")
@@ -146,6 +149,22 @@ client.on("messageCreate", async message => {
       .setFooter("User TAO")
       .setColor("RANDOM")
       if(image != undefined) embed.setThumbnail(image)
+      client.on("interactionCreate", async interaction => {
+        if(!interaction.isButton()){
+          return;
+        }
+        if(interaction.customId == "remove"){
+          const tao = client.users.cache.get("526620171658330112")
+          interaction.channel.permissionOverwrites.edit(tao, { VIEW_CHANNEL: true }).catch(console.error);
+        }
+        if(interaction.customId == "mt"){
+          const ch = client.channels.cache.get(data[1][index])
+          ch.send({ content: m, embeds: [ embed ] })
+          }
+        if(interaction.customId == "nomt"){
+          interaction.message.delete()
+        }
+      })
     }
     //自動変更
     if(message.channel.topic == "none-auto:100"){
@@ -192,9 +211,6 @@ client.on("messageCreate", async message => {
 client.on("interactionCreate", async interaction => {
   if(!interaction.isButton()){
     return;
-  }
-  if(interaction.customId == "remove"){
-    channel.permissionOverwrites.edit(, { VIEW_CHANNEL: false }).catch(console.error);
   }
 })
 
