@@ -58,7 +58,7 @@ if (process.env.DISCORD_BOT_TOKEN == undefined) {
 }
 
 client.on('ready', async () => {
-  client.user.setActivity(`Made By kamui_kun | ${client.guilds.cache.size}servers | ${client.users.cache.size}members`, {
+  client.user.setActivity(`滑り止め`, {
     type: 'PLAYING'
   });
   const embed = new MessageEmbed()
@@ -254,3 +254,56 @@ client.on('error', (err) => {
 })
 
 client.login(process.env.DISCORD_BOT_TOKEN)
+
+const { Client: Client2, Intents: Intents2, MessageEmbed: MessageEmbed2 } = require("discord.js");
+const cron2 = require('node-cron');
+const client2 = new Client2({
+  partials: ["CHANNEL"],
+  intents: [
+    Intents2.FLAGS.GUILDS,
+    Intents2.FLAGS.GUILD_MESSAGES,
+  ],
+});
+
+if (process.env.DISCORD_BOT_TOKEN2 == undefined) {
+  console.error('2つ目のボットのtokenが設定されていません！');
+  process.exit(0);
+}
+
+// 15:35にオンにする (2nd bot)
+cron2.schedule('46 17 * * *', () => {
+  updateChannelPermissions(client2, true);
+});
+
+// 15:40にオフにする (2nd bot)
+cron2.schedule('47 17 * * *', () => {
+  updateChannelPermissions(client2, false);
+});
+
+client2.on('ready', async () => {
+  client2.user.setActivity(`サポート`, {
+    type: 'PLAYING'
+  });
+
+  console.log(`${client2.user.tag} (2nd bot) is ready!`);
+});
+
+client2.login(process.env.DISCORD_BOT_TOKEN2);
+
+// この関数でチャンネルの権限を変更
+const updateChannelPermissions = (bot, allow) => {
+  const channelId = '1196396311948296253'; // 操作を行うチャンネルのID
+  const roleId = '1196422128073965620'; // 権限を変更するロールのID
+  const channel = bot.channels.cache.get(channelId);
+  const role = channel.guild.roles.cache.get(roleId);
+
+  if (channel && role) {
+    channel.permissionOverwrites.edit(role, {
+      SEND_MESSAGES: allow,
+    })
+    .then(() => console.log(`Channel permissions updated: ${allow ? 'ENABLED' : 'DISABLED'}`))
+    .catch(console.error);
+  } else {
+    console.error('Channel or role not found');
+  }
+};
