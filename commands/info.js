@@ -15,7 +15,7 @@ module.exports = {
       new MessageEmbed()
       .setTitle("Info:")
       .setDescription("開発者陣の情報です")
-      .addField("開発者",`\`\`\`fix\n${client.users.cache.get("759001587422462015").username}\`\`\``)
+      .addField("開発者",`\`\`\`fix\n${client.users.cache.get("985571178817142794").username}\`\`\``)
       .addField("スペシャルサンクス",`\`\`\`fix\nanijaaa様,TAO#0042様,${interaction.user.username}様含むユーザーの皆様\`\`\``)
       .setAuthor(`コマンド実行者:${interaction.user.tag}`, interaction.user.displayAvatarURL())
       .setColor("RANDOM"),
@@ -28,8 +28,6 @@ module.exports = {
       .addField("開発言語","```fix\nJavaScript```",true)
       .addField("Discord.js ver","```js\nver.13.16.0```",true)
       .addField("Ping",`\`\`\`fix\n${client.ws.ping}ms\`\`\``,true)
-      .addField("Botの招待",`[こちら](https://discord.com/api/oauth2/authorize?client_id=886497516420489268&permissions=3632208&scope=bot+applications.commands)`,true)
-      .addField("サポートサーバー",`[こちら](https://discord.gg/MWv82VXm3T)`,true)
       .setAuthor(`コマンド実行者:${interaction.user.tag}`, interaction.user.displayAvatarURL())
       .setColor("RANDOM")
     ]

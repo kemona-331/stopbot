@@ -66,7 +66,7 @@ client.on('ready', async () => {
   .setDescription(">>> ```diff\n+ Hello World!　　　　　``````diff\n+ 導入サーバー数:" + client.guilds.cache.size + "\n+ ユーザー数:" + client.users.cache.size + "```" + moment().format("YYYY-MM-DD HH:mm:ss"))
   .setThumbnail(client.user.displayAvatarURL())
   .setColor("RANDOM")
-  client.channels.cache.get("1183460380119421048").send({ embeds: [ embed ] })
+  client.channels.cache.get("1196400934033576067").send({ embeds: [ embed ] })
   const data = []
   for(const commandName in commands){
     data.push(commands[commandName].data)
@@ -122,7 +122,7 @@ client.on("messageCreate", async message => {
         .setLabel("轢き防止解除")
         .setStyle("SUCCESS")
         .setCustomId("remove")
-        .setEmoji("🤞")
+        .setEmoji("🔓")
         but2
         .setLabel("通知")
         .setStyle("PRIMARY")
@@ -170,7 +170,7 @@ client.on("messageCreate", async message => {
           .setTitle("通知完了")
           .setURL(`https://discord.com/channels/${notify.guild.id}/${notify.channel.id}/${notify.id}`)
           .setColor("RANDOM")
-          interaction.message.edit({ embeds:[success], components:[ newbutton([ { id: "x", emoji: "❎", style: 2, disabled: true } ]) ] })
+          interaction.message.edit({ embeds:[success], components:[ newbutton([ { id: "x", emoji: "🆗", style: 2, disabled: true } ]) ] })
         }
         if(interaction.message.id == msg.id && interaction.customId == "nomt"){
           interaction.message.delete()
