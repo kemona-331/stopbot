@@ -178,7 +178,7 @@ client.on("messageCreate", async message => {
       })
     }
     //自動変更
-    if(message.channel.topic == "none-auto:100"){
+    if(message.channel.topic == "auto:100"){
       const level = Math.floor(Number(lv) / 100) * 100
       if(message.channel.name.match(/lv+\d+$/)){
         const n = message.channel.name.match(/lv+(\d+)$/)
@@ -190,7 +190,7 @@ client.on("messageCreate", async message => {
         return;
       }
       await message.channel.setName(`${message.channel.name}-lv${level}`)
-    }else if(message.channel.topic == "none-auto:1000"){
+    }else if(message.channel.topic == "auto:1000"){
       const level = Math.floor(Number(lv) / 1000) * 1000
       if(message.channel.name.match(/lv+\d+$/)){
         const n = message.channel.name.match(/lv+(\d+)$/)
@@ -202,7 +202,7 @@ client.on("messageCreate", async message => {
         return;
       }
       await message.channel.setName(`${message.channel.name}-lv${level}`)
-    }else if(message.channel.topic == "none-auto:10000"){
+    }else if(message.channel.topic == "auto:10000"){
       const level = Math.floor(Number(lv) / 10000) * 10000
       if(message.channel.name.match(/lv+\d+$/)){
         const n = message.channel.name.match(/lv+(\d+)$/)
