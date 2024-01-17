@@ -271,12 +271,12 @@ if (process.env.DISCORD_BOT_TOKEN2 == undefined) {
 }
 
 // 15:35にオンにする (2nd bot)
-cron2.schedule('46 17 * * *', () => {
+cron2.schedule('49 17 * * *', () => {
   updateChannelPermissions(client2, true);
 });
 
 // 15:40にオフにする (2nd bot)
-cron2.schedule('47 17 * * *', () => {
+cron2.schedule('50 17 * * *', () => {
   updateChannelPermissions(client2, false);
 });
 
