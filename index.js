@@ -257,6 +257,7 @@ client.login(process.env.DISCORD_BOT_TOKEN)
 
 const { Client: Client2, Intents: Intents2, MessageEmbed: MessageEmbed2 } = require("discord.js");
 const cron2 = require('node-cron');
+const channelSettings = {};
 const client2 = new Client2({
   partials: ["CHANNEL"],
   intents: [
@@ -269,6 +270,49 @@ if (process.env.DISCORD_BOT_TOKEN2 == undefined) {
   console.error('2つ目のボットのtokenが設定されていません！');
   process.exit(0);
 }
+
+client2.on('messageCreate', async (message) => {
+  // メッセージがボット自体のものだった場合は無視
+  if (message.author.bot) return;
+
+  // メッセージが s? で始まる場合、コマンドを処理
+  if (message.content.startsWith('s?チャンネルを見る')) {
+    // メンバーがコマンドを実行できるかチェック
+    if (!message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
+      return message.reply('このコマンドを実行する権限がありません。');
+    }
+
+    // コマンドの引数を取得
+    const args = message.content.slice(10).trim().split(/ +/);
+    
+    // 引数の数が正しいかチェック
+    if (args.length !== 2) {
+      return message.reply('正しい形式でコマンドを入力してください。例: s?チャンネルを見る @ロール名 true');
+    }
+
+    // ロールメンションを取得
+    const roleMention = args[0];
+    
+    // 引数が true または false の場合、設定を変更
+    if (args[1] === 'true' || args[1] === 'false') {
+      const newSetting = args[1] === 'true';
+
+      // ロールメンションが正しいか確認
+      const role = message.mentions.roles.first();
+      if (!role) {
+        return message.reply('指定されたロールが見つかりません。正しいロールメンションを使用してください。');
+      }
+
+      // チャンネルの設定を変更
+      channelSettings[`${message.channel.id}_${role.id}`] = newSetting;
+
+      message.reply(`チャンネルの設定を ${newSetting} に変更しました！`);
+    } else {
+      message.reply('正しい形式でコマンドを入力してください。例: s?チャンネルを見る @ロール名 true');
+    }
+  }
+});
+
 
 // 15:35にオンにする (2nd bot)
 cron2.schedule('05 14 * * *', () => {
