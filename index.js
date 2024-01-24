@@ -255,9 +255,9 @@ client.on('error', (err) => {
 
 client.login(process.env.DISCORD_BOT_TOKEN)
 
-const { Client: Client2, Intents: Intents2, MessageEmbed: MessageEmbed2 } = require("discord.js");
+const { Client: Client2, Intents: Intents2, MessageEmbed: MessageEmbed2, Permissions } = require("discord.js");
 const cron2 = require('node-cron');
-const channelSettings = {};
+const channelSettings = {}; // この行を追加
 const client2 = new Client2({
   partials: ["CHANNEL"],
   intents: [
@@ -266,11 +266,7 @@ const client2 = new Client2({
   ],
 });
 
-if (process.env.DISCORD_BOT_TOKEN2 == undefined) {
-  console.error('2つ目のボットのtokenが設定されていません！');
-  process.exit(0);
-}
-
+// ロールメンションを含むメッセージが送信されたときのイベント
 client2.on('messageCreate', async (message) => {
   // メッセージがボット自体のものだった場合は無視
   if (message.author.bot) return;
@@ -287,7 +283,7 @@ client2.on('messageCreate', async (message) => {
     
     // 引数の数が正しいかチェック
     if (args.length !== 2) {
-      return message.reply('正しい形式でコマンドを入力してください。例: s?チャンネルを見る @ロール名 true');
+      return message.reply('正しい形式でコマンドを入力してください。\n例:s?チャンネルを見る @ロール名 ture or false');
     }
 
     // ロールメンションを取得
@@ -308,10 +304,15 @@ client2.on('messageCreate', async (message) => {
 
       message.reply(`チャンネルの設定を ${newSetting} に変更しました！`);
     } else {
-      message.reply('正しい形式でコマンドを入力してください。例: s?チャンネルを見る @ロール名 true');
+      message.reply('正しい形式でコマンドを入力してください。\n例:**s?チャンネルを見る @ロール名 ture or false**');
     }
   }
 });
+
+// 2nd botのログイン
+client2.login(process.env.DISCORD_BOT_TOKEN2);
+
+
 
 
 // 15:35にオンにする (2nd bot)
