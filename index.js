@@ -58,7 +58,7 @@ if (process.env.DISCORD_BOT_TOKEN == undefined) {
 }
 
 client.on('ready', async () => {
-  client.user.setActivity(`滑り止め`, {
+  client.user.setActivity(`滑り止め(1nd)`, {
     type: 'PLAYING'
   });
   const embed = new MessageEmbed()
@@ -281,7 +281,7 @@ cron2.schedule('50 17 * * *', () => {
 });
 
 client2.on('ready', async () => {
-  client2.user.setActivity(`サポート`, {
+  client2.user.setActivity(`サポート(2nd)`, {
     type: 'PLAYING'
   });
 
