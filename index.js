@@ -257,7 +257,6 @@ client.login(process.env.DISCORD_BOT_TOKEN)
 
 const { Client: Client2, Intents: Intents2, MessageEmbed: MessageEmbed2, Permissions } = require("discord.js");
 const cron2 = require('node-cron');
-const channelSettings = {}; // この行を追加
 const client2 = new Client2({
   partials: ["CHANNEL"],
   intents: [
@@ -283,7 +282,7 @@ client2.on('messageCreate', async (message) => {
     
     // 引数の数が正しいかチェック
     if (args.length !== 2) {
-      return message.reply('正しい形式でコマンドを入力してください。\n例:s?チャンネルを見る @ロール名 ture or false');
+      return message.reply('正しい形式でコマンドを入力してください。例: s?チャンネルを見る @ロール名 true');
     }
 
     // ロールメンションを取得
@@ -299,21 +298,20 @@ client2.on('messageCreate', async (message) => {
         return message.reply('指定されたロールが見つかりません。正しいロールメンションを使用してください。');
       }
 
-      // チャンネルの設定を変更
-      channelSettings[`${message.channel.id}_${role.id}`] = newSetting;
+      // チャンネルとロールの組み合わせに対する設定を変更
+      const channel = message.channel;
+      channel.permissionOverwrites.edit(role, {
+        SEND_MESSAGES: newSetting,
+      });
 
       message.reply(`チャンネルの設定を ${newSetting} に変更しました！`);
     } else {
-      message.reply('正しい形式でコマンドを入力してください。\n例:**s?チャンネルを見る @ロール名 ture or false**');
+      message.reply('正しい形式でコマンドを入力してください。例: s?チャンネルを見る @ロール名 true');
     }
   }
 });
 
-// 2nd botのログイン
 client2.login(process.env.DISCORD_BOT_TOKEN2);
-
-
-
 
 // 15:35にオンにする (2nd bot)
 cron2.schedule('05 14 * * *', () => {
