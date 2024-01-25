@@ -26,7 +26,7 @@ const newbutton = (buttondata) => {
 module.exports = {
   data: {
     name: "disable",
-    description: "設定の削除を行います",
+    description: "設定の削除をするよ",
     options: [
       {
         type: "BOOLEAN",
