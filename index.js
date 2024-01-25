@@ -98,7 +98,7 @@ client.on("messageCreate", async message => {
           board.setTitle("必要な情報が設定されてないから通知出来ないよ")
         }else{
           board.setTitle("超激レアだよ！")
-          m = `<@&${data[1][0]}>さんたち！超激レア発見！`
+          m = `<@&${data[1][0]}>メンションごめんね！超激レア発見！`
           index = 0
         }
       }else{
@@ -106,7 +106,7 @@ client.on("messageCreate", async message => {
           board.setTitle("必要な情報が設定されてないから通知出来ないよ")
         }else{
           board.setTitle("tohru枠だよ！")
-          m = `<@&${data[1][1]}>さんたち！tohru枠発見！`
+          m = `<@&${data[1][1]}>メンションごめんね！tohru枠発見！`
           index = 1
         }
       }

@@ -20,7 +20,7 @@ module.exports = {
       .setAuthor(`コマンド実行者:${interaction.user.tag}`, interaction.user.displayAvatarURL())
       .setColor("RANDOM"),
       new MessageEmbed()
-      .setTitle("Info:")
+      .setTitle("Info")
       .setDescription("Botの情報です。")
       .addField("サーバー数",`${client.guilds.cache.size}`,true)
       .addField("チャンネル数",`${client.channels.cache.size}\ntext:${client.channels.cache.filter(c => c.type == 'GUILD_TEXT').size},voice:${client.channels.cache.filter(c => c.type == 'GUILD_VOICE').size},stage:${client.channels.cache.filter(c => c.type == 'GUILD_NEWS').size},category:${client.channels.cache.filter(c => c.type === 'GUILD_CATEGORY').size}`,true)

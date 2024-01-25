@@ -3,7 +3,7 @@ const { Client, Intents, MessageEmbed, MessageActionRow, MessageButton } = requi
 module.exports = {
   data: {
     name: "help",
-    description: "コマンド一覧を表示します",
+    description: "コマンド一覧を表示するよ",
   },
   async execute(interaction) {
     const embed = new MessageEmbed()
