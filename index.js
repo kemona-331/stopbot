@@ -41,12 +41,26 @@ const commands = {}
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
 app.use(express.static('public')); // publicフォルダ内の静的ファイルを提供します
 
-http
-  .createServer(function(request, response) {
-    response.writeHead(200, { 'Content-Type': 'text/plain;charset=utf-8' })
-    response.end(`${client.user.tag} is ready!\n導入サーバー:${client.guilds.cache.size}\nユーザー:${client.users.cache.size}`)
-  })
-  .listen(3000)
+http.createServer(function(request, response) {
+  if (request.url === '/restart') {
+    // ログアウト処理
+    client.destroy();
+
+    // ログイン処理
+    client.login(process.env.DISCORD_BOT_TOKEN);
+
+    response.writeHead(200, { 'Content-Type': 'text/plain;charset=utf-8' });
+    response.end('Bot has been restarted.');
+  } else {
+    response.writeHead(200, { 'Content-Type': 'text/html;charset=utf-8' });
+    response.end(`
+      <p>${client.user.tag} is ready!</p>
+      <p>導入サーバー: ${client.guilds.cache.size}</p>
+      <p>ユーザー: ${client.users.cache.size}</p>
+      <button onclick="fetch('/restart').then(() => location.reload());">Restart</button>
+    `);
+  }
+}).listen(3000);
 
 for(const file of commandFiles){
   const command = require(`./commands/${file}`);
@@ -57,6 +71,10 @@ if (process.env.DISCORD_BOT_TOKEN == undefined) {
   console.error('tokenが設定されていません！')
   process.exit(0)
 }
+app.get('/home', (req, res) => {
+  const filePath = path.join(__dirname, './', 'home.html');
+  res.sendFile(filePath);
+})
 
 client.on('ready', async () => {
   client.user.setActivity(`滑り止め(1nd)`, {
@@ -277,15 +295,3 @@ client2.on('ready', async () => {
 });
 
 client2.login(process.env.DISCORD_BOT_TOKEN2);
-
-app.get('/restart', (req, res) => {
-  // ここで認証を行います。認証が成功した場合のみ再起動を行います
-
-  // ログアウト処理
-  client.destroy();
-
-  // ログイン処理
-  client.login(process.env.DISCORD_BOT_TOKEN);
-
-  res.send('Bot has been restarted.');
-});
