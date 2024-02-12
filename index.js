@@ -265,63 +265,7 @@ const client2 = new Client2({
   ],
 });
 
-// ロールメンションを含むメッセージが送信されたときのイベント
-client2.on('messageCreate', async (message) => {
-  // メッセージがボット自体のものだった場合は無視
-  if (message.author.bot) return;
-
-  // メッセージが s? で始まる場合、コマンドを処理
-  if (message.content.startsWith('s?チャンネルを見る')) {
-    // メンバーがコマンドを実行できるかチェック
-    if (!message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
-      return message.reply('このコマンドを実行する権限がありません。');
-    }
-
-    // コマンドの引数を取得
-    const args = message.content.slice(10).trim().split(/ +/);
-    
-    // 引数の数が正しいかチェック
-    if (args.length !== 2) {
-      return message.reply('正しい形式でコマンドを入力してください。例: s?チャンネルを見る @ロール名 true');
-    }
-
-    // ロールメンションを取得
-    const roleMention = args[0];
-    
-    // 引数が true または false の場合、設定を変更
-    if (args[1] === 'true' || args[1] === 'false') {
-      const newSetting = args[1] === 'true';
-
-      // ロールメンションが正しいか確認
-      const role = message.mentions.roles.first();
-      if (!role) {
-        return message.reply('指定されたロールが見つかりません。正しいロールメンションを使用してください。');
-      }
-
-      // チャンネルとロールの組み合わせに対する設定を変更
-      const channel = message.channel;
-      channel.permissionOverwrites.edit(role, {
-        SEND_MESSAGES: newSetting,
-      });
-
-      message.reply(`チャンネルの設定を ${newSetting} に変更しました！`);
-    } else {
-      message.reply('正しい形式でコマンドを入力してください。例: s?チャンネルを見る @ロール名 true');
-    }
-  }
-});
-
 client2.login(process.env.DISCORD_BOT_TOKEN2);
-
-// 15:35にオンにする (2nd bot)
-cron2.schedule('05 14 * * *', () => {
-  updateChannelPermissions(client2, true);
-});
-
-// 15:40にオフにする (2nd bot)
-cron2.schedule('06 14 * * *', () => {
-  updateChannelPermissions(client2, false);
-});
 
 client2.on('ready', async () => {
   client2.user.setActivity(`サポート(2nd)`, {
@@ -332,21 +276,3 @@ client2.on('ready', async () => {
 });
 
 client2.login(process.env.DISCORD_BOT_TOKEN2);
-
-// この関数でチャンネルの権限を変更
-const updateChannelPermissions = (bot, allow) => {
-  const channelId = '1196396311948296253'; // 操作を行うチャンネルのID
-  const roleId = '1196422128073965620'; // 権限を変更するロールのID
-  const channel = bot.channels.cache.get(channelId);
-  const role = channel.guild.roles.cache.get(roleId);
-
-  if (channel && role) {
-    channel.permissionOverwrites.edit(role, {
-      SEND_MESSAGES: allow,
-    })
-    .then(() => console.log(`Channel permissions updated: ${allow ? 'ENABLED' : 'DISABLED'}`))
-    .catch(console.error);
-  } else {
-    console.error('Channel or role not found');
-  }
-};
