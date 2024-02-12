@@ -39,6 +39,7 @@ let guildId
 
 const commands = {}
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
+app.use(express.static('public')); // publicフォルダ内の静的ファイルを提供します
 
 http
   .createServer(function(request, response) {
@@ -276,3 +277,15 @@ client2.on('ready', async () => {
 });
 
 client2.login(process.env.DISCORD_BOT_TOKEN2);
+
+app.get('/restart', (req, res) => {
+  // ここで認証を行います。認証が成功した場合のみ再起動を行います
+
+  // ログアウト処理
+  client.destroy();
+
+  // ログイン処理
+  client.login(process.env.DISCORD_BOT_TOKEN);
+
+  res.send('Bot has been restarted.');
+});
