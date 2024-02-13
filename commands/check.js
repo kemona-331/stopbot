@@ -25,7 +25,7 @@ const newbutton = (buttondata) => {
 module.exports = {
   data: {
     name: "check",
-    description: "登録された情報を表示するよ(test)",
+    description: "登録された情報を表示するよ",
   },
   async execute(interaction) {
     let data = await db.get(interaction.guild.id)
