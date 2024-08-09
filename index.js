@@ -56,10 +56,6 @@ if (process.env.DISCORD_BOT_TOKEN == undefined) {
   console.error('tokenが設定されていません！')
   process.exit(0)
 }
-app.get('/home', (req, res) => {
-  const filePath = path.join(__dirname, './', 'home.html');
-  res.sendFile(filePath);
-})
 
 client.on('ready', async () => {
   client.user.setActivity(`滑り止め(1nd)`, {
