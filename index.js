@@ -254,25 +254,3 @@ client.on('error', (err) => {
 })
 
 client.login(process.env.DISCORD_BOT_TOKEN)
-
-const { Client: Client2, Intents: Intents2, MessageEmbed: MessageEmbed2, Permissions } = require("discord.js");
-const cron2 = require('node-cron');
-const client2 = new Client2({
-  partials: ["CHANNEL"],
-  intents: [
-    Intents2.FLAGS.GUILDS,
-    Intents2.FLAGS.GUILD_MESSAGES,
-  ],
-});
-
-client2.login(process.env.DISCORD_BOT_TOKEN2);
-
-client2.on('ready', async () => {
-  client2.user.setActivity(`サポート(2nd)`, {
-    type: 'PLAYING'
-  });
-
-  console.log(`${client2.user.tag} (2nd bot) is ready!`);
-});
-
-client2.login(process.env.DISCORD_BOT_TOKEN2);
